@@ -184,6 +184,50 @@ export async function toggleStar(docId: string): Promise<void> {
   }
 }
 
+export async function addCategory(name: string): Promise<Category> {
+  await delay(300);
+  const cats: Category[] = JSON.parse(localStorage.getItem('doc_categories') || '[]');
+  const newCat = { id: 'c' + Date.now(), name };
+  cats.push(newCat);
+  localStorage.setItem('doc_categories', JSON.stringify(cats));
+  return newCat;
+}
+
+export async function deleteCategory(id: string): Promise<void> {
+  await delay(300);
+  let cats: Category[] = JSON.parse(localStorage.getItem('doc_categories') || '[]');
+  cats = cats.filter(c => c.id !== id);
+  localStorage.setItem('doc_categories', JSON.stringify(cats));
+}
+
+export async function getUsers(): Promise<User[]> {
+  await delay(300);
+  return JSON.parse(localStorage.getItem('doc_users') || '[]');
+}
+
+export async function addUser(user: Omit<User, 'id'>): Promise<User> {
+  await delay(300);
+  const users: User[] = JSON.parse(localStorage.getItem('doc_users') || '[]');
+  const newUser = { ...user, id: 'u' + Date.now() };
+  users.push(newUser);
+  localStorage.setItem('doc_users', JSON.stringify(users));
+  return newUser;
+}
+
+export async function deleteUser(id: string): Promise<void> {
+  await delay(300);
+  let users: User[] = JSON.parse(localStorage.getItem('doc_users') || '[]');
+  users = users.filter(u => u.id !== id);
+  localStorage.setItem('doc_users', JSON.stringify(users));
+}
+
+export async function deleteDocument(id: string): Promise<void> {
+  await delay(300);
+  let docs: Document[] = JSON.parse(localStorage.getItem('doc_documents') || '[]');
+  docs = docs.filter(d => d.id !== id);
+  localStorage.setItem('doc_documents', JSON.stringify(docs));
+}
+
 export async function incrementDownload(docId: string): Promise<void> {
   const docs: Document[] = JSON.parse(localStorage.getItem('doc_documents') || '[]');
   const index = docs.findIndex(d => d.id === docId);
